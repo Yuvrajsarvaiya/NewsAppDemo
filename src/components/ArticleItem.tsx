@@ -15,7 +15,13 @@ interface ArticleItemProps extends Article {
   currentIndex: SharedValue<number>;
 }
 
+function generateRandomIdx(range: number) {
+  return Math.floor(Math.random() * range);
+}
+
 function ArticleItem({urlToImage, index, currentIndex}: ArticleItemProps) {
+  const randomIndex = generateRandomIdx(2);
+
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: interpolate(
@@ -39,7 +45,7 @@ function ArticleItem({urlToImage, index, currentIndex}: ArticleItemProps) {
         )}
       </View>
       <ParentView>
-        <HTMLView value={htmlContent.html} />
+        <HTMLView value={htmlContent[randomIndex].html} />
       </ParentView>
     </Animated.View>
   );

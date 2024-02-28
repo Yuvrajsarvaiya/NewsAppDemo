@@ -8,7 +8,7 @@ export const CARD_IMAGE_HEIGHT = SCREEN_HEIGHT * 0.3;
 export const CARD_HEIGHT = SCREEN_HEIGHT - OFFSET;
 export const MAX_HEIGHT_CONTENT = SCREEN_HEIGHT - CARD_IMAGE_HEIGHT - 50;
 
-export const htmlContent = {
+export const htmlContent1 = {
   html: `
   <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
   <h1 style="color: #007bff;">Welcome to React Native Render HTML!</h1>
@@ -20,3 +20,14 @@ export const htmlContent = {
 </div>
 `,
 };
+
+export const htmlContent2 = {
+  html: `
+  <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+  <h1 style="color: #007bff;">Welcome to React Native Render HTML!</h1>
+  <p>This is a long HTML content for testing purposes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec justo ac lectus condimentum sagittis non quis velit. Integer id mi a est varius elementum. Quisque in eros vitae orci mattis sollicitudin. Morbi ut ullamcorper libero, nec venenatis lectus. Fusce gravida massa felis, eu rhoncus mi eleifend id. Aliquam eu ex justo.</p>
+</div>
+`,
+};
+
+export const htmlContent = [htmlContent1, htmlContent2];
