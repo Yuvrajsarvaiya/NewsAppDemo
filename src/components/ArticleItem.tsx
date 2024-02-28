@@ -10,6 +10,7 @@ import ParentView from './ParentView';
 import {
   CARD_HEIGHT,
   CARD_IMAGE_HEIGHT,
+  SCREEN_HEIGHT,
   SCREEN_WIDTH,
   htmlContent,
 } from '../constants';
@@ -18,27 +19,27 @@ import {type Article} from '../models';
 interface ArticleItemProps extends Article {
   index: number;
   currentIndex: SharedValue<number>;
+  translateY: SharedValue<number>;
 }
 
 function generateRandomIdx(range: number) {
   return Math.floor(Math.random() * range);
 }
 
-function ArticleItem({urlToImage, index, currentIndex}: ArticleItemProps) {
+function ArticleItem({urlToImage, index, translateY}: ArticleItemProps) {
   const randomIndex = generateRandomIdx(2);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(
-        currentIndex.value,
-        [index - 1, index, index + 1],
-        [0.4, 1, 0.4],
-      ),
       transform: [
         {
           scale: interpolate(
-            currentIndex.value,
-            [index - 1, index, index + 1],
+            translateY.value,
+            [
+              -SCREEN_HEIGHT * (index + 1),
+              -SCREEN_HEIGHT * index,
+              -SCREEN_HEIGHT * (index - 1),
+            ],
             [0.9, 1.05, 0.9],
           ),
         },

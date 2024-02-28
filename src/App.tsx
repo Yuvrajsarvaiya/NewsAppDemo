@@ -11,9 +11,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  withSpring,
 } from 'react-native-reanimated';
 import {
+  Directions,
   Gesture,
   GestureDetector,
   GestureHandlerRootView,
@@ -32,44 +32,38 @@ function App(): React.JSX.Element {
   };
   const translateY = useSharedValue(-OFFSET);
   const startY = useSharedValue(0);
-  const beginY = useSharedValue(0);
   const index = useSharedValue(0);
 
-  const dragGesture = Gesture.Pan()
-    .onBegin(() => {})
-    .onUpdate(e => {
-      translateY.value = e.translationY + startY.value;
-      beginY.value = e.translationY;
-    })
-    .onEnd(() => {
-      const isSwipeDown = beginY.value < -40;
-      const isSwipeUp = beginY.value > 30;
+  const flingGestureUP = Gesture.Fling()
+    .direction(Directions.UP)
+    .onStart(() => {
+      if (index.value === articles.length - 1) {
+        return;
+      }
+      translateY.value = withTiming(
+        -SCREEN_HEIGHT * (index.value + 1),
+        {duration: 600},
+        () => {
+          startY.value = translateY.value;
+        },
+      );
+      index.value = index.value + 1;
+    });
 
-      if (isSwipeUp && index.value > 0) {
-        index.value = withTiming(index.value - 1, {duration: 600});
-        translateY.value = withTiming(
-          -SCREEN_HEIGHT * (index.value - 1),
-          {duration: 600},
-          () => {
-            startY.value = translateY.value;
-          },
-        );
+  const fligGestureDown = Gesture.Fling()
+    .direction(Directions.DOWN)
+    .onStart(() => {
+      if (index.value === 0) {
+        return;
       }
-      if (isSwipeDown && index.value < articles.length - 1) {
-        index.value = withTiming(index.value + 1, {duration: 600});
-        translateY.value = withTiming(
-          -SCREEN_HEIGHT * (index.value + 1),
-          {duration: 600},
-          () => {
-            startY.value = translateY.value;
-          },
-        );
-      }
-      if (!isSwipeDown && !isSwipeUp) {
-        translateY.value = withSpring(translateY.value - beginY.value, {
-          duration: 100,
-        });
-      }
+      translateY.value = withTiming(
+        -SCREEN_HEIGHT * (index.value - 1),
+        {duration: 600},
+        () => {
+          startY.value = translateY.value;
+        },
+      );
+      index.value = index.value - 1;
     });
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -85,19 +79,22 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
 
-      <GestureDetector gesture={dragGesture}>
-        <Animated.View style={animatedStyles}>
-          {articles.map((article, idx) => {
-            return (
-              <ArticleItem
-                key={idx}
-                index={idx}
-                currentIndex={index}
-                {...article}
-              />
-            );
-          })}
-        </Animated.View>
+      <GestureDetector gesture={flingGestureUP}>
+        <GestureDetector gesture={fligGestureDown}>
+          <Animated.View style={animatedStyles}>
+            {articles.map((article, idx) => {
+              return (
+                <ArticleItem
+                  key={idx}
+                  index={idx}
+                  currentIndex={index}
+                  translateY={translateY}
+                  {...article}
+                />
+              );
+            })}
+          </Animated.View>
+        </GestureDetector>
       </GestureDetector>
     </SafeAreaView>
   );
