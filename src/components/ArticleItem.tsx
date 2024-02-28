@@ -5,9 +5,14 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import HTMLView from 'react-native-htmlview';
+import RenderHtml from 'react-native-render-html';
 import ParentView from './ParentView';
-import {CARD_HEIGHT, CARD_IMAGE_HEIGHT, htmlContent} from '../constants';
+import {
+  CARD_HEIGHT,
+  CARD_IMAGE_HEIGHT,
+  SCREEN_WIDTH,
+  htmlContent,
+} from '../constants';
 import {type Article} from '../models';
 
 interface ArticleItemProps extends Article {
@@ -45,7 +50,10 @@ function ArticleItem({urlToImage, index, currentIndex}: ArticleItemProps) {
         )}
       </View>
       <ParentView>
-        <HTMLView value={htmlContent[randomIndex].html} />
+        <RenderHtml
+          contentWidth={SCREEN_WIDTH * 0.7}
+          source={htmlContent[randomIndex]}
+        />
       </ParentView>
     </Animated.View>
   );
