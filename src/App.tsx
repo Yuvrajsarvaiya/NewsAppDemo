@@ -42,8 +42,8 @@ function App(): React.JSX.Element {
       beginY.value = e.translationY;
     })
     .onEnd(() => {
-      const isSwipeDown = beginY.value < -80;
-      const isSwipeUp = beginY.value > 70;
+      const isSwipeDown = beginY.value < -40;
+      const isSwipeUp = beginY.value > 30;
 
       if (isSwipeUp && index.value > 0) {
         index.value = withTiming(index.value - 1, {duration: 600});

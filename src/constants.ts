@@ -10,7 +10,7 @@ export const MAX_HEIGHT_CONTENT = SCREEN_HEIGHT - CARD_IMAGE_HEIGHT - 50;
 
 export const htmlContent1 = {
   html: `
-  <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+  <div style="font-family: Arial, sans-serif; font-size: 16px; color: #707070;">
   <h2 style="color: #222222;">Welcome to React Native Render HTML!</h2>
   <p>This is a long HTML content for testing purposes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec justo ac lectus condimentum sagittis non quis velit. Integer id mi a est varius elementum. Quisque in eros vitae orci mattis sollicitudin. Morbi ut ullamcorper libero, nec venenatis lectus. Fusce gravida massa felis, eu rhoncus mi eleifend id. Aliquam eu ex justo.</p>
   <p>Nam rutrum tempor leo, ac egestas velit scelerisque sit amet. Donec pretium tortor quis nisi dignissim suscipit. Duis lacinia bibendum risus, non posuere odio gravida eget. Sed nec justo ac dolor venenatis scelerisque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur in leo mi. Nullam vitae tortor in nunc convallis rutrum. Aenean ut odio nec elit sollicitudin consectetur. Cras posuere sapien vitae mi finibus feugiat. Integer fringilla, odio vel tincidunt mattis, leo libero consequat tellus, in viverra justo sem in nisi.</p>
@@ -23,7 +23,7 @@ export const htmlContent1 = {
 
 export const htmlContent2 = {
   html: `
-  <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+  <div style="font-family: Arial, sans-serif; font-size: 16px; color: #707070;">
   <h2 style="color: #222222;">Welcome to React Native Render HTML!</h2>
   <p>This is a long HTML content for testing purposes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec justo ac lectus condimentum sagittis non quis velit. Integer id mi a est varius elementum. Quisque in eros vitae orci mattis sollicitudin. Morbi ut ullamcorper libero, nec venenatis lectus. Fusce gravida massa felis, eu rhoncus mi eleifend id. Aliquam eu ex justo.</p>
 </div>

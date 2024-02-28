@@ -34,6 +34,15 @@ function ArticleItem({urlToImage, index, currentIndex}: ArticleItemProps) {
         [index - 1, index, index + 1],
         [0.4, 1, 0.4],
       ),
+      transform: [
+        {
+          scale: interpolate(
+            currentIndex.value,
+            [index - 1, index, index + 1],
+            [0.9, 1.05, 0.9],
+          ),
+        },
+      ],
     };
   }, []);
 
