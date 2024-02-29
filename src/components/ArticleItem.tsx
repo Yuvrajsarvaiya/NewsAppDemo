@@ -20,13 +20,19 @@ interface ArticleItemProps extends Article {
   index: number;
   currentIndex: SharedValue<number>;
   translateY: SharedValue<number>;
+  onScrollToEnd: () => void;
 }
 
 function generateRandomIdx(range: number) {
   return Math.floor(Math.random() * range);
 }
 
-function ArticleItem({urlToImage, index, translateY}: ArticleItemProps) {
+function ArticleItem({
+  urlToImage,
+  index,
+  translateY,
+  onScrollToEnd,
+}: ArticleItemProps) {
   const randomIndex = generateRandomIdx(2);
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -49,21 +55,18 @@ function ArticleItem({urlToImage, index, translateY}: ArticleItemProps) {
 
   return (
     <Animated.View style={[styles.card, animatedStyles]}>
-      <View>
-        {urlToImage ? (
-          <Image
-            style={{height: CARD_IMAGE_HEIGHT}}
-            source={{uri: urlToImage}}
-          />
-        ) : (
-          <Text>No View</Text>
-        )}
-      </View>
-      <ParentView>
-        <RenderHtml
-          contentWidth={SCREEN_WIDTH * 0.7}
-          source={htmlContent[randomIndex]}
-        />
+      <ParentView onScrollToEnd={onScrollToEnd}>
+        <View>
+          {urlToImage ? (
+            <Image
+              style={{height: CARD_IMAGE_HEIGHT}}
+              source={{uri: urlToImage}}
+            />
+          ) : (
+            <Text>No View</Text>
+          )}
+        </View>
+        <RenderHtml contentWidth={SCREEN_WIDTH * 0.7} source={htmlContent[0]} />
       </ParentView>
     </Animated.View>
   );

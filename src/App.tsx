@@ -72,6 +72,18 @@ function App(): React.JSX.Element {
     };
   }, []);
 
+  function onScrollToEnd() {
+    'worket';
+    translateY.value = withTiming(
+      -SCREEN_HEIGHT * (index.value + 1),
+      {duration: 600},
+      () => {
+        startY.value = translateY.value;
+      },
+    );
+    index.value = index.value + 1;
+  }
+
   return (
     <SafeAreaView style={[backgroundStyle, styles.flexGrow]}>
       <StatusBar
@@ -89,6 +101,7 @@ function App(): React.JSX.Element {
                   index={idx}
                   currentIndex={index}
                   translateY={translateY}
+                  onScrollToEnd={onScrollToEnd}
                   {...article}
                 />
               );
