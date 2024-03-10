@@ -41,7 +41,6 @@ function App(): React.JSX.Element {
     changed: Array<ViewToken>;
   }) {
     const visibleItem = info.viewableItems[0];
-    console.log('----***----', info.viewableItems);
     if (visibleItem && visibleItem.index !== null) {
       setResetScroll(visibleItem.index);
     }

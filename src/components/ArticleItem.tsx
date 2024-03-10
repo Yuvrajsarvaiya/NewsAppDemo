@@ -1,11 +1,9 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import Animated from 'react-native-reanimated';
 import RenderHtml from 'react-native-render-html';
 import {
   CARD_IMAGE_HEIGHT,
   CARD_WIDTH,
-  SCREEN_HEIGHT,
   SCREEN_WIDTH,
   htmlContent,
 } from '../constants';
@@ -14,10 +12,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 interface ArticleItemProps extends Article {
   resetScroll: boolean;
-}
-
-function generateRandomIdx(range: number) {
-  return Math.floor(Math.random() * range);
 }
 
 function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
@@ -35,7 +29,7 @@ function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
       showsVerticalScrollIndicator={false}
       ref={scrollRef}
       style={styles.container}>
-      <Animated.View style={[styles.card]}>
+      <View style={[styles.card]}>
         <View>
           {urlToImage ? (
             <Image
@@ -50,7 +44,7 @@ function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
           contentWidth={SCREEN_WIDTH * 0.7}
           source={htmlContent[randomIndex]}
         />
-      </Animated.View>
+      </View>
     </ScrollView>
   );
 }
@@ -58,15 +52,16 @@ function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: SCREEN_HEIGHT - 50,
+    backgroundColor: '#f8f9fc',
   },
   card: {
     marginHorizontal: (SCREEN_WIDTH - CARD_WIDTH) / 2,
     width: CARD_WIDTH,
     backgroundColor: '#f8f9fc',
     borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+    marginVertical: 10,
   },
 });
 
