@@ -17,19 +17,19 @@ import {Article} from './models';
 
 const VIEW_THRESHOLD = 50;
 
-const articles = newsData.articles
-  .filter(article => Boolean(article.urlToImage))
-  .slice(0, 10);
+const articles = newsData.articles.filter(article =>
+  Boolean(article.urlToImage),
+);
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const [resetScroll, setResetScroll] = React.useState(-1);
+  const [resetScrollIndex, setResetScrollIndex] = React.useState(-1);
 
   function renderItem({item, index}: ListRenderItemInfo<Article>) {
-    return <ArticleItem resetScroll={resetScroll === index} {...item} />;
+    return <ArticleItem resetScroll={resetScrollIndex === index} {...item} />;
   }
 
   function keyExtractor(item: Article, idx: number) {
@@ -42,7 +42,7 @@ function App(): React.JSX.Element {
   }) {
     const visibleItem = info.viewableItems[0];
     if (visibleItem && visibleItem.index !== null) {
-      setResetScroll(visibleItem.index);
+      setResetScrollIndex(visibleItem.index);
     }
   }
 

@@ -20,32 +20,34 @@ function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
 
   React.useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTo({x: 0, y: 0, animated: false});
+      scrollRef.current.scrollTo({y: 0, animated: false});
     }
   }, [resetScroll]);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      ref={scrollRef}
-      style={styles.container}>
-      <View style={[styles.card]}>
-        <View>
-          {urlToImage ? (
-            <Image
-              style={{height: CARD_IMAGE_HEIGHT}}
-              source={{uri: urlToImage}}
-            />
-          ) : (
-            <Text>No View</Text>
-          )}
+    <View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        ref={scrollRef}
+        style={styles.container}>
+        <View style={[styles.card]}>
+          <View>
+            {urlToImage ? (
+              <Image
+                style={{height: CARD_IMAGE_HEIGHT}}
+                source={{uri: urlToImage}}
+              />
+            ) : (
+              <Text>No View</Text>
+            )}
+          </View>
+          <RenderHtml
+            contentWidth={SCREEN_WIDTH * 0.7}
+            source={htmlContent[randomIndex]}
+          />
         </View>
-        <RenderHtml
-          contentWidth={SCREEN_WIDTH * 0.7}
-          source={htmlContent[randomIndex]}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
