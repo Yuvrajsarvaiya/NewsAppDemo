@@ -1,25 +1,21 @@
 import React from 'react';
 import {
+  FlatList,
+  ListRenderItemInfo,
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  ViewToken,
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import newsData from './data/news_data.json';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import {
-  Directions,
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {ArticleItem} from './components';
-import {OFFSET, SCREEN_HEIGHT} from './constants';
+import {SCREEN_WIDTH} from './constants';
+import {Article} from './models';
+
+const VIEW_THRESHOLD = 50;
 
 const articles = newsData.articles
   .filter(article => Boolean(article.urlToImage))
@@ -30,47 +26,26 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const translateY = useSharedValue(-OFFSET);
-  const startY = useSharedValue(0);
-  const index = useSharedValue(0);
+  const [resetScroll, setResetScroll] = React.useState(-1);
 
-  const flingGestureUP = Gesture.Fling()
-    .direction(Directions.UP)
-    .onStart(() => {
-      if (index.value === articles.length - 1) {
-        return;
-      }
-      translateY.value = withTiming(
-        -SCREEN_HEIGHT * (index.value + 1),
-        {duration: 600},
-        () => {
-          startY.value = translateY.value;
-        },
-      );
-      index.value = index.value + 1;
-    });
+  function renderItem({item, index}: ListRenderItemInfo<Article>) {
+    return <ArticleItem resetScroll={resetScroll === index} {...item} />;
+  }
 
-  const fligGestureDown = Gesture.Fling()
-    .direction(Directions.DOWN)
-    .onStart(() => {
-      if (index.value === 0) {
-        return;
-      }
-      translateY.value = withTiming(
-        -SCREEN_HEIGHT * (index.value - 1),
-        {duration: 600},
-        () => {
-          startY.value = translateY.value;
-        },
-      );
-      index.value = index.value - 1;
-    });
+  function keyExtractor(item: Article, idx: number) {
+    return idx.toString();
+  }
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{translateY: translateY.value}],
-    };
-  }, []);
+  function onViewableItemsChanged(info: {
+    viewableItems: Array<ViewToken>;
+    changed: Array<ViewToken>;
+  }) {
+    const visibleItem = info.viewableItems[0];
+    console.log('----***----', info.viewableItems);
+    if (visibleItem && visibleItem.index !== null) {
+      setResetScroll(visibleItem.index);
+    }
+  }
 
   return (
     <SafeAreaView style={[backgroundStyle, styles.flexGrow]}>
@@ -79,23 +54,17 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
 
-      <GestureDetector gesture={flingGestureUP}>
-        <GestureDetector gesture={fligGestureDown}>
-          <Animated.View style={animatedStyles}>
-            {articles.map((article, idx) => {
-              return (
-                <ArticleItem
-                  key={idx}
-                  index={idx}
-                  currentIndex={index}
-                  translateY={translateY}
-                  {...article}
-                />
-              );
-            })}
-          </Animated.View>
-        </GestureDetector>
-      </GestureDetector>
+      <FlatList
+        data={articles}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={SCREEN_WIDTH}
+        disableIntervalMomentum
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{viewAreaCoveragePercentThreshold: VIEW_THRESHOLD}}
+      />
     </SafeAreaView>
   );
 }

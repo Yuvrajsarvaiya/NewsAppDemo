@@ -7,6 +7,7 @@ export const OFFSET = 20;
 export const CARD_IMAGE_HEIGHT = SCREEN_HEIGHT * 0.3;
 export const CARD_HEIGHT = SCREEN_HEIGHT - OFFSET;
 export const MAX_HEIGHT_CONTENT = SCREEN_HEIGHT - CARD_IMAGE_HEIGHT - 50;
+export const CARD_WIDTH = SCREEN_WIDTH - OFFSET;
 
 export const htmlContent1 = {
   html: `
@@ -17,7 +18,9 @@ export const htmlContent1 = {
   <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam consectetur, purus sit amet iaculis tincidunt, ex enim pellentesque risus, et sodales augue ligula sit amet velit. Integer tempor, lectus non dignissim vestibulum, mi justo facilisis sem, et lobortis libero est et elit. Nullam lacinia est id est lobortis, quis mollis odio rutrum. Ut aliquam quam quis mauris interdum lacinia. Maecenas sed odio lacinia, tempus tortor ac, ullamcorper velit. Ut vel diam in dolor hendrerit bibendum eu sit amet lorem. Proin aliquam sit amet risus eget suscipit.</p>
   <p>Proin vel vehicula leo, et iaculis sapien. Quisque iaculis, lacus nec interdum feugiat, mauris libero aliquam libero, sed vestibulum eros ligula ut nulla. Suspendisse potenti. Duis vitae malesuada risus, non convallis sapien. Suspendisse potenti. Suspendisse potenti. Duis vitae malesuada risus, non convallis sapien.</p>
   <p>Donec sit amet est mi. Mauris vehicula, libero vel viverra rutrum, est ex mollis sapien, sit amet accumsan magna enim in lorem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec non vestibulum erat. Mauris tincidunt nisi sed metus posuere lobortis. Sed vitae metus luctus, dictum leo et, placerat lacus. Phasellus et rutrum orci. Duis aliquam condimentum libero, nec egestas purus dapibus ut. Nulla interdum velit quis orci condimentum, nec eleifend velit tincidunt.</p>
-</div>
+  <p>Proin vel vehicula leo, et iaculis sapien. Quisque iaculis, lacus nec interdum feugiat, mauris libero aliquam libero, sed vestibulum eros ligula ut nulla. Suspendisse potenti. Duis vitae malesuada risus, non convallis sapien. Suspendisse potenti. Suspendisse potenti. Duis vitae malesuada risus, non convallis sapien.</p>
+  <p>Donec sit amet est mi. Mauris vehicula, libero vel viverra rutrum, est ex mollis sapien, sit amet accumsan magna enim in lorem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec non vestibulum erat. Mauris tincidunt nisi sed metus posuere lobortis. Sed vitae metus luctus, dictum leo et, placerat lacus. Phasellus et rutrum orci. Duis aliquam condimentum libero, nec egestas purus dapibus ut. Nulla interdum velit quis orci condimentum, nec eleifend velit tincidunt.</p>
+  </div>
 `,
 };
 
