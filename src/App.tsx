@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  FlatList,
   ListRenderItemInfo,
   SafeAreaView,
   StatusBar,
@@ -8,6 +7,7 @@ import {
   ViewToken,
   useColorScheme,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import newsData from './data/news_data.json';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -15,7 +15,7 @@ import {ArticleItem} from './components';
 import {SCREEN_WIDTH} from './constants';
 import {Article} from './models';
 
-const VIEW_THRESHOLD = 50;
+const VIEW_THRESHOLD = 80;
 
 const articles = newsData.articles.filter(article =>
   Boolean(article.urlToImage),
@@ -29,7 +29,9 @@ function App(): React.JSX.Element {
   const [resetScrollIndex, setResetScrollIndex] = React.useState(-1);
 
   function renderItem({item, index}: ListRenderItemInfo<Article>) {
-    return <ArticleItem resetScroll={resetScrollIndex === index} {...item} />;
+    return (
+      <ArticleItem resetScroll={resetScrollIndex === index} article={item} />
+    );
   }
 
   function keyExtractor(item: Article, idx: number) {
@@ -46,6 +48,13 @@ function App(): React.JSX.Element {
     }
   }
 
+  function getItemLayout(
+    _data: ArrayLike<Article> | null | undefined,
+    index: number,
+  ) {
+    return {index, length: SCREEN_WIDTH, offset: SCREEN_WIDTH * index};
+  }
+
   return (
     <SafeAreaView style={[backgroundStyle, styles.flexGrow]}>
       <StatusBar
@@ -53,16 +62,19 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
 
-      <FlatList
+      <Animated.FlatList
         data={articles}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={SCREEN_WIDTH}
+        decelerationRate={0.9}
         disableIntervalMomentum
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: VIEW_THRESHOLD}}
+        scrollEventThrottle={16}
+        getItemLayout={getItemLayout}
       />
     </SafeAreaView>
   );

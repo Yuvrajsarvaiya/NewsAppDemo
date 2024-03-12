@@ -1,5 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 import RenderHtml from 'react-native-render-html';
 import {
   CARD_IMAGE_HEIGHT,
@@ -8,46 +10,61 @@ import {
   htmlContent,
 } from '../constants';
 import {type Article} from '../models';
-import {ScrollView} from 'react-native-gesture-handler';
 
-interface ArticleItemProps extends Article {
+interface ArticleItemProps {
+  article: Article;
   resetScroll: boolean;
 }
 
-function ArticleItem({urlToImage, resetScroll}: ArticleItemProps) {
-  const randomIndex = 0;
-  const scrollRef = React.useRef<ScrollView>(null);
+function ArticleItem({article, resetScroll}: ArticleItemProps) {
+  const scrollRef = React.useRef<FlatList>(null);
 
   React.useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTo({y: 0, animated: false});
+      scrollRef.current.scrollToIndex({index: 0});
     }
   }, [resetScroll]);
 
+  function renderItem() {
+    return <ArticleItemNews article={article} />;
+  }
+
+  function keyExtractor(_item: number, idx: number) {
+    return idx.toString();
+  }
+
   return (
     <View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
+      <FlatList
         ref={scrollRef}
-        style={styles.container}>
-        <View style={[styles.card]}>
-          <View>
-            {urlToImage ? (
-              <Image
-                style={{height: CARD_IMAGE_HEIGHT}}
-                source={{uri: urlToImage}}
-              />
-            ) : (
-              <Text>No View</Text>
-            )}
-          </View>
-          <RenderHtml
-            contentWidth={SCREEN_WIDTH * 0.7}
-            source={htmlContent[randomIndex]}
-          />
-        </View>
-      </ScrollView>
+        keyExtractor={keyExtractor}
+        data={[0]}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
+  );
+}
+
+function ArticleItemNews({article: {urlToImage}}: {article: Article}) {
+  const randomIndex = 0;
+  return (
+    <Animated.View style={[styles.card]}>
+      <View>
+        {urlToImage ? (
+          <Image
+            style={{height: CARD_IMAGE_HEIGHT}}
+            source={{uri: urlToImage}}
+          />
+        ) : (
+          <Text>No View</Text>
+        )}
+      </View>
+      <RenderHtml
+        contentWidth={SCREEN_WIDTH * 0.7}
+        source={htmlContent[randomIndex]}
+      />
+    </Animated.View>
   );
 }
 
@@ -67,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ArticleItem;
+export default React.memo(ArticleItem);
